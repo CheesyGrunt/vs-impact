@@ -122,6 +122,10 @@ svg.chart{width:100%;height:auto;display:block;overflow:visible}
 .tg[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:#fff;font-weight:600}
 .up{color:var(--sage)} .down{color:var(--red)}
 
+.callout{background:#FFF8E7;border:1px solid #E8D9B0;border-left:3px solid var(--amber);
+  border-radius:4px;padding:15px 18px;margin-bottom:20px;font-size:14px;color:#5C4A22;max-width:88ch}
+.callout b{color:#7A5F1E}
+
 /* ---- footer ---- */
 footer{background:var(--card);border-top:1px solid var(--rule);padding:48px 0 60px;color:var(--ink2);font-size:14.5px}
 footer h4{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:0 0 12px;font-weight:600}
@@ -145,7 +149,8 @@ footer p{margin:0 0 13px;max-width:74ch}
 
 @media print{
   body{background:#fff;font-size:11pt}
-  .rail,.btn,.legend,#chartSections{display:none!important}
+  .rail,.btn,.legend,#chartSections,.toggle{display:none!important}
+  .callout{border:1px solid #999;background:none;color:#000}
   .masthead{border-bottom:2px solid #000}
   section{padding:18px 0;border-bottom:0;break-inside:avoid}
   .card{border:1px solid #999;padding:0;background:none}
@@ -271,14 +276,29 @@ footer p{margin:0 0 13px;max-width:74ch}
   <section>
     <div class="sec-head">
       <span class="label">07 &nbsp;/&nbsp; Year over year</span>
-      <h2>January through May, 2025 against 2026</h2>
-      <p>A like-for-like window, so the comparison is not flattered by a partial year.</p>
+      <h2 id="ytdTitle">Year over year</h2>
+      <p id="ytdPeriod">A like-for-like window, so the comparison is not flattered by a partial year.</p>
     </div>
+    <div class="callout" id="ytdDisclaimer" hidden></div>
     <div class="card">
+      <h3>Summary totals</h3>
+      <p class="note" id="ytdNote"></p>
       <div class="tscroll">
-        <table style="min-width:640px">
-          <thead><tr><th>Metric</th><th>2025 YTD</th><th>2026 YTD</th><th>Change</th><th>Percent</th></tr></thead>
+        <table id="ytdTable" style="min-width:660px">
+          <thead><tr id="ytdHead"></tr></thead>
           <tbody id="ytdBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card" id="ytdProgCard" style="margin-top:22px" hidden>
+      <h3>By program</h3>
+      <p class="note">Same window, program by program. Switch the metric to compare a different measure.</p>
+      <div class="toggle" id="ytdToggle" role="group" aria-label="Select comparison metric"></div>
+      <div class="tscroll">
+        <table id="ytdProgTable" style="min-width:640px">
+          <thead><tr id="ytdProgHead"></tr></thead>
+          <tbody id="ytdProgBody"></tbody>
+          <tfoot><tr id="ytdProgFoot"></tr></tfoot>
         </table>
       </div>
     </div>
@@ -295,7 +315,7 @@ footer p{margin:0 0 13px;max-width:74ch}
       </div>
       <div>
         <h4>Reading the current year</h4>
-        <p>The current year is partial and will keep moving. Use the January through May comparison for any year-over-year claim.</p>
+        <p>The current year is partial and will keep moving. Use the year-over-year comparison, which covers <span id="periodEcho">a matched window in both years</span>, for any year-over-year claim.</p>
         <p>A small number of logged engagements are flagged during review as potential duplicates or entry errors and are held out of supported counts.</p>
       </div>
     </div>
@@ -308,7 +328,7 @@ footer p{margin:0 0 13px;max-width:74ch}
 const C={navy:'#1E3A5C',steel:'#4E7C9B',sage:'#5F8F73',amber:'#A8761F',red:'#C8102E',
          ink3:'#70869C',rule:'#DCE3EA',sunk:'#EDF1F5'};
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-let D=null,YEAR='all',METRIC='hours',SORT={k:'hours',dir:-1};
+let D=null,YEAR='all',METRIC='hours',YFAM='Hours',SORT={k:'hours',dir:-1};
 
 const nf=n=>n>=1e6?(n/1e6).toFixed(2)+'M':Math.round(n).toLocaleString();
 const money=n=>'$'+nf(n);
@@ -479,7 +499,25 @@ function renderVol(){
   document.getElementById('volChart').innerHTML=hbars(data,{fmt:v=>nf(v)+'  ('+pc(v/tot)+')',color:C.navy,labelW:150,rowH:38});
 }
 function renderYtd(){
-  document.getElementById('ytdBody').innerHTML=D.ytd.map(function(r){
+  const y=D.ytd&&!Array.isArray(D.ytd)?D.ytd:{metrics:Array.isArray(D.ytd)?D.ytd:[],
+    priorLabel:'Prior',currentLabel:'Current',families:[],programs:[],total:null};
+
+  document.getElementById('ytdTitle').textContent=y.banner||'Year over year';
+  document.getElementById('ytdPeriod').textContent=y.period||
+    'A like-for-like window, so the comparison is not flattered by a partial year.';
+
+  const dis=document.getElementById('ytdDisclaimer');
+  if(y.disclaimer){dis.innerHTML='<b>Note on this period:</b> '+esc(y.disclaimer);dis.hidden=false;}
+  else dis.hidden=true;
+
+  document.getElementById('ytdHead').innerHTML=
+    '<th>Metric</th><th>'+esc(y.priorLabel)+'</th><th>'+esc(y.currentLabel)+
+    '</th><th>Change</th><th>Percent</th>';
+  document.getElementById('ytdNote').textContent=
+    'Source sheet: '+(y.sheet||'YTD comparison')+'.';
+  if(y.period)document.getElementById('periodEcho').textContent=y.period.replace(/\.\s*$/,'').split('.')[0];
+
+  document.getElementById('ytdBody').innerHTML=(y.metrics||[]).map(function(r){
     const isM=/value/i.test(r.metric),isA=/^avg/i.test(r.metric);
     const f=v=>v==null?'&mdash;':isA?dec(v,1):(isM?money0(v):nf(v));
     const up=(r.delta||0)>=0,cls=up?'up':'down';
@@ -487,6 +525,33 @@ function renderYtd(){
       (up?'+':'&minus;')+f(Math.abs(r.delta||0))+'</td><td class="'+cls+'">'+
       (r.pct==null?'&mdash;':(up?'+':'')+pc(r.pct))+'</td></tr>';
   }).join('');
+
+  const card=document.getElementById('ytdProgCard');
+  const fams=y.families||[];
+  if(!fams.length||!(y.programs||[]).length){card.hidden=true;return;}
+  card.hidden=false;
+  if(fams.indexOf(YFAM)<0)YFAM=fams.indexOf('Hours')>=0?'Hours':fams[0];
+
+  const tg=document.getElementById('ytdToggle');
+  tg.innerHTML=fams.map(function(f){
+    return '<button class="tg" data-f="'+esc(f)+'" aria-pressed="'+(f===YFAM)+'">'+esc(f)+'</button>';}).join('');
+
+  const isMoney=/kind|value|cost/i.test(YFAM);
+  const fmt=v=>isMoney?money0(v):(Math.round(v)===v?Math.round(v).toLocaleString()
+    :v.toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1}));
+  document.getElementById('ytdProgHead').innerHTML='<th>Program</th><th>'+esc(y.priorLabel)+
+    '</th><th>'+esc(y.currentLabel)+'</th><th>Change</th><th>Percent</th>';
+
+  const line=function(r,foot){
+    const c=r[YFAM]||{prior:0,current:0},d=(c.current||0)-(c.prior||0);
+    const up=d>=0,cls=d===0?'':(up?'up':'down');
+    const p=c.prior?d/c.prior:null;
+    return '<tr><td>'+esc(r.program)+'</td><td>'+fmt(c.prior||0)+'</td><td>'+fmt(c.current||0)+
+      '</td><td class="'+cls+'">'+(d===0?'&mdash;':(up?'+':'&minus;')+fmt(Math.abs(d)))+
+      '</td><td class="'+cls+'">'+(p==null?'&mdash;':(p>=0?'+':'')+pc(p))+'</td></tr>';
+  };
+  document.getElementById('ytdProgBody').innerHTML=y.programs.map(function(r){return line(r);}).join('');
+  document.getElementById('ytdProgFoot').innerHTML=y.total?line(y.total):'';
 }
 function renderAll(){
   renderKpis();renderReport();
@@ -530,6 +595,10 @@ try{
   const rh=document.getElementById('reportHead');
   rh.addEventListener('click',sortHandler);
   rh.addEventListener('keydown',sortHandler);
+  document.getElementById('ytdToggle').addEventListener('click',function(e){
+    const b=e.target.closest('.tg');if(!b)return;
+    YFAM=b.dataset.f;renderYtd();
+  });
   document.getElementById('printBtn').addEventListener('click',function(){window.print();});
 
   renderHeadline();renderYtd();renderAll();
