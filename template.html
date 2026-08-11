@@ -282,7 +282,6 @@ footer p{margin:0 0 13px;max-width:74ch}
     <div class="callout" id="ytdDisclaimer" hidden></div>
     <div class="card">
       <h3>Summary totals</h3>
-      <p class="note" id="ytdNote"></p>
       <div class="tscroll">
         <table id="ytdTable" style="min-width:660px">
           <thead><tr id="ytdHead"></tr></thead>
@@ -498,24 +497,82 @@ function renderVol(){
   let tot=0;data.forEach(r=>tot+=r.v);tot=tot||1;
   document.getElementById('volChart').innerHTML=hbars(data,{fmt:v=>nf(v)+'  ('+pc(v/tot)+')',color:C.navy,labelW:150,rowH:38});
 }
+/* Shown above the year-over-year tables. Edit this one line to change it. */
+const YTD_NOTE='During the first and second quarters of 2026, a ZIP code suspension hindered mailing, so some activity is not fully reflected in these figures.';
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function daysIn(m,y){return [31,(y%4===0&&y%100!==0)||y%400===0?29:28,31,30,31,30,31,31,30,31,30,31][m];}
+
+/* The reporting window is never hardcoded. It comes from the workbook:
+   first from the month names the YTD sheet labels its own columns with,
+   and failing that from the last month the engagement log has real activity in. */
+function windowFromLabels(y){
+  const hay=[y.currentLabel,y.priorLabel,y.period,y.banner].filter(Boolean).join('  ');
+  let last=-1;
+  MONTHS.forEach(function(full,i){
+    if(new RegExp('\\b('+full+'|'+full.slice(0,3)+')\\b','i').test(hay))last=Math.max(last,i);
+  });
+  return last;
+}
+function windowFromData(yr){
+  const rows=D.monthly.filter(r=>r.year===yr);
+  if(!rows.length)return -1;
+  let mx=0;rows.forEach(r=>{if(r.engagements>mx)mx=r.engagements;});
+  let last=-1;rows.forEach(r=>{if(r.engagements>=mx*0.05&&r.month-1>last)last=r.month-1;});
+  return last;
+}
+function cleanLabel(raw,yr){
+  let t=String(raw||'').trim();
+  MONTHS.forEach(function(full){
+    t=t.replace(new RegExp('\\b('+full+'|'+full.slice(0,3)+')\\b\\.?','gi'),'');
+  });
+  t=t.replace(/[\u2010-\u2015-]/g,' ').replace(/\(\s*\)/g,'').replace(/\s{2,}/g,' ').trim();
+  t=t.replace(/[\s,(-]+$/,'').trim();
+  return t||(yr+' YTD');
+}
+function ytdYears(y){
+  const found=[];
+  [y.priorLabel,y.currentLabel,y.banner].filter(Boolean).forEach(function(s){
+    (String(s).match(/\b(20\d{2})\b/g)||[]).forEach(v=>{if(found.indexOf(+v)<0)found.push(+v);});
+  });
+  found.sort((a,b)=>a-b);
+  if(found.length>=2)return[found[0],found[found.length-1]];
+  const ys=years();
+  return[ys[ys.length-2],ys[ys.length-1]];
+}
+
 function renderYtd(){
   const y=D.ytd&&!Array.isArray(D.ytd)?D.ytd:{metrics:Array.isArray(D.ytd)?D.ytd:[],
     priorLabel:'Prior',currentLabel:'Current',families:[],programs:[],total:null};
 
-  document.getElementById('ytdTitle').textContent=y.banner||'Year over year';
-  document.getElementById('ytdPeriod').textContent=y.period||
-    'A like-for-like window, so the comparison is not flattered by a partial year.';
+  const yy=ytdYears(y),priorYr=yy[0],curYr=yy[1];
+  document.getElementById('ytdTitle').textContent='Year to date: '+priorYr+' vs '+curYr;
+
+  const endM=windowFromData(curYr)>=0?windowFromData(curYr):windowFromLabels(y);
+  let periodLine;
+  if(endM>=0){
+    periodLine='January 1 through '+MONTHS[endM]+' '+daysIn(endM,curYr)+', compared against the same window in '+priorYr+'.';
+  }else{
+    periodLine='A matched window in both years, so the comparison is not flattered by a partial year.';
+  }
+  // carry over any non-date wording the sheet added to its own period line
+  if(y.period){
+    String(y.period).split(/(?<=\.)\s+/).forEach(function(sent){
+      const t=sent.trim();
+      if(t&&!/\d/.test(t)&&MONTHS.every(m=>!new RegExp(m.slice(0,3),'i').test(t)))periodLine+=' '+t;
+    });
+  }
+  document.getElementById('ytdPeriod').textContent=periodLine;
+  window.__ytdWindow=endM>=0?('January 1 through '+MONTHS[endM]+' '+daysIn(endM,curYr)):null;
 
   const dis=document.getElementById('ytdDisclaimer');
-  if(y.disclaimer){dis.innerHTML='<b>Note on this period:</b> '+esc(y.disclaimer);dis.hidden=false;}
-  else dis.hidden=true;
+  dis.innerHTML='<b>Note on this period:</b> '+YTD_NOTE;
+  dis.hidden=!YTD_NOTE;
 
+  const priorHead=cleanLabel(y.priorLabel,priorYr),currentHead=cleanLabel(y.currentLabel,curYr);
   document.getElementById('ytdHead').innerHTML=
-    '<th>Metric</th><th>'+esc(y.priorLabel)+'</th><th>'+esc(y.currentLabel)+
+    '<th>Metric</th><th>'+esc(priorHead)+'</th><th>'+esc(currentHead)+
     '</th><th>Change</th><th>Percent</th>';
-  document.getElementById('ytdNote').textContent=
-    'Source sheet: '+(y.sheet||'YTD comparison')+'.';
-  if(y.period)document.getElementById('periodEcho').textContent=y.period.replace(/\.\s*$/,'').split('.')[0];
+  if(window.__ytdWindow)document.getElementById('periodEcho').textContent=window.__ytdWindow;
 
   document.getElementById('ytdBody').innerHTML=(y.metrics||[]).map(function(r){
     const isM=/value/i.test(r.metric),isA=/^avg/i.test(r.metric);
@@ -536,11 +593,12 @@ function renderYtd(){
   tg.innerHTML=fams.map(function(f){
     return '<button class="tg" data-f="'+esc(f)+'" aria-pressed="'+(f===YFAM)+'">'+esc(f)+'</button>';}).join('');
 
+  const yy2=ytdYears(y),priorYr2=yy2[0],curYr2=yy2[1];
   const isMoney=/kind|value|cost/i.test(YFAM);
   const fmt=v=>isMoney?money0(v):(Math.round(v)===v?Math.round(v).toLocaleString()
     :v.toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1}));
-  document.getElementById('ytdProgHead').innerHTML='<th>Program</th><th>'+esc(y.priorLabel)+
-    '</th><th>'+esc(y.currentLabel)+'</th><th>Change</th><th>Percent</th>';
+  document.getElementById('ytdProgHead').innerHTML='<th>Program</th><th>'+esc(cleanLabel(y.priorLabel,priorYr2))+
+    '</th><th>'+esc(cleanLabel(y.currentLabel,curYr2))+'</th><th>Change</th><th>Percent</th>';
 
   const line=function(r,foot){
     const c=r[YFAM]||{prior:0,current:0},d=(c.current||0)-(c.prior||0);
