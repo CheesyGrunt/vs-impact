@@ -3,148 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Virtual Services Impact | Soldiers' Angels</title>
-<meta name="description" content="Volunteer hours, in-kind value, and reach across Soldiers' Angels Virtual Services programs, 2023 to 2026.">
-<meta property="og:title" content="Virtual Services Impact | Soldiers' Angels">
-<meta property="og:description" content="430,000+ volunteer hours. 233,000+ engagements. Here is what that looks like.">
+<title>Virtual Services Dashboard | Soldiers' Angels</title>
+<meta name="description" content="Volunteer hours, in-kind value, and program reach across Soldiers' Angels Virtual Services.">
+<meta property="og:title" content="Virtual Services Dashboard | Soldiers' Angels">
+<meta property="og:description" content="Program impact across every Virtual Services program, year by year.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75..125,400..900&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300..800;1,400&family=Source+Serif+4:opsz,wght@8..60,300..600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0B1520; --panel:#132030; --panel2:#1A2A3B; --line:#23394E;
-  --ivory:#F2EDE2; --muted:#8CA2B5; --dim:#5F778C;
-  --brass:#D9A441; --azure:#5FA8CC; --sage:#84AE8E; --rust:#C4573B;
-  --maxw:1180px;
+  --paper:#F5F7F9; --card:#FFFFFF; --sunk:#EDF1F5;
+  --ink:#14263B; --ink2:#43586F; --ink3:#70869C;
+  --rule:#DCE3EA; --rule2:#C3CFDA;
+  --red:#C8102E; --navy:#1E3A5C; --steel:#4E7C9B; --sage:#5F8F73; --amber:#A8761F;
+  --maxw:1220px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0; background:var(--ink); color:var(--ivory);
-  font-family:"Newsreader",Georgia,serif; font-size:17px; line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(ellipse 900px 500px at 78% -8%, rgba(217,164,65,.10), transparent 62%),
-                   radial-gradient(ellipse 700px 420px at 5% 12%, rgba(95,168,204,.08), transparent 60%);
-  background-attachment:fixed;
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;
 }
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
-h1,h2,h3,.disp{font-family:"Archivo",system-ui,sans-serif;font-variation-settings:"wdth" 112;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+h1,h2,h3{font-weight:700;letter-spacing:-.015em;margin:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.label{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
 
-/* ---------- masthead ---------- */
-.masthead{border-bottom:1px solid var(--line);position:relative;z-index:5;background:rgba(11,21,32,.78);backdrop-filter:blur(8px)}
-.masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:14px;padding-bottom:14px}
-.brand{display:flex;align-items:baseline;gap:10px;font-family:"Archivo";font-weight:800;letter-spacing:.13em;text-transform:uppercase;font-size:13px}
-.brand .div{color:var(--brass);font-weight:400}
-.brand .sub{color:var(--muted);font-weight:600;letter-spacing:.13em}
-.masthead .tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+/* ---- masthead ---- */
+.masthead{background:var(--card);border-bottom:1px solid var(--rule)}
+.masthead::before{content:"";display:block;height:3px;background:var(--red)}
+.masthead .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:15px;padding-bottom:15px}
+.brand{font-weight:800;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.brand i{font-style:normal;color:var(--rule2);margin:0 8px}
+.brand em{font-style:normal;font-weight:600;color:var(--ink2)}
 
-/* ---------- hero ---------- */
-.hero{padding:72px 0 40px;position:relative;overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:48px;align-items:start}
-.eyebrow{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:22px;display:flex;align-items:center;gap:12px}
-.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-h1{font-size:clamp(40px,6.6vw,78px);line-height:.96;margin:0 0 22px;font-weight:800;font-variation-settings:"wdth" 118;letter-spacing:-.015em}
-h1 em{font-family:"Newsreader";font-style:italic;font-weight:300;color:var(--brass);letter-spacing:-.01em}
-.lede{font-size:19px;color:#C8D5DF;max-width:56ch;margin:0}
-.lede b{color:var(--ivory);font-weight:600}
+/* ---- hero ---- */
+.hero{padding:56px 0 34px}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+h1{font-size:clamp(32px,4.6vw,52px);line-height:1.04;margin-bottom:18px;font-weight:800}
+.lede{font-family:"Source Serif 4",Georgia,serif;font-size:19.5px;line-height:1.6;color:var(--ink2);max-width:60ch;margin:0}
+.lede b{color:var(--ink);font-weight:600}
 
-/* postmark signature */
-.stamp{width:230px;height:230px;opacity:0;transform:rotate(-24deg) scale(1.35);animation:stampdown .55s cubic-bezier(.2,1.4,.4,1) .5s forwards}
-@keyframes stampdown{60%{opacity:.95;transform:rotate(-7deg) scale(.97)}100%{opacity:1;transform:rotate(-9deg) scale(1)}}
-.stamp text{font-family:"JetBrains Mono";fill:var(--brass)}
-.stamp .ring{fill:none;stroke:var(--brass);opacity:.85}
-.stamp .yr{font-family:"Archivo";font-weight:900;font-size:40px;fill:var(--brass);font-variation-settings:"wdth" 90}
+.headline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:40px;border-radius:4px;overflow:hidden}
+.headline>div{background:var(--card);padding:20px 22px}
+.headline .n{font-size:clamp(24px,3vw,33px);font-weight:800;line-height:1.1;letter-spacing:-.025em;color:var(--navy)}
+.headline .l{margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
 
-/* headline stats */
-.headline-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:52px}
-.hs{background:var(--ink);padding:24px 22px}
-.hs .n{font-family:"Archivo";font-weight:800;font-size:clamp(26px,3.4vw,40px);line-height:1;font-variation-settings:"wdth" 95;letter-spacing:-.02em}
-.hs .l{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:10px}
-.hs:nth-child(1) .n{color:var(--brass)} .hs:nth-child(2) .n{color:var(--azure)}
-.hs:nth-child(3) .n{color:var(--sage)} .hs:nth-child(4) .n{color:var(--ivory)}
-
-/* ---------- filter rail ---------- */
-.rail{position:sticky;top:0;z-index:20;background:rgba(11,21,32,.93);backdrop-filter:blur(10px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:56px}
-.rail .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
-.rail .lab{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+/* ---- year rail ---- */
+.rail{position:sticky;top:0;z-index:30;background:rgba(245,247,249,.94);backdrop-filter:blur(8px);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:44px}
+.rail .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:11px;padding-bottom:11px}
 .pills{display:flex;gap:6px;flex-wrap:wrap}
-.pill{font-family:"JetBrains Mono";font-size:12px;letter-spacing:.06em;background:transparent;color:var(--muted);border:1px solid var(--line);padding:7px 15px;cursor:pointer;transition:.16s;border-radius:2px}
-.pill:hover{color:var(--ivory);border-color:var(--dim)}
-.pill[aria-pressed="true"]{background:var(--brass);color:#10192285;color:#101922;border-color:var(--brass);font-weight:700}
-.pill:focus-visible{outline:2px solid var(--azure);outline-offset:2px}
+.pill{font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--card);color:var(--ink2);border:1px solid var(--rule2);padding:7px 16px;border-radius:3px;cursor:pointer;transition:.15s}
+.pill:hover{border-color:var(--ink3);color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:600}
+.pill:focus-visible,.tg:focus-visible,.btn:focus-visible,th.sortable:focus-visible{outline:2px solid var(--steel);outline-offset:2px}
+.btn{margin-left:auto;font-family:"Public Sans",sans-serif;font-size:13px;font-weight:600;background:var(--card);color:var(--ink2);border:1px solid var(--rule2);padding:8px 15px;border-radius:3px;cursor:pointer}
+.btn:hover{border-color:var(--ink3);color:var(--ink)}
 
-/* ---------- sections ---------- */
-section{padding:64px 0;border-bottom:1px solid var(--line)}
-.sec-head{margin-bottom:32px}
-.sec-num{font-family:"JetBrains Mono";font-size:11px;letter-spacing:.2em;color:var(--brass);display:block;margin-bottom:10px}
-h2{font-size:clamp(24px,3vw,34px);margin:0 0 10px;font-weight:800;letter-spacing:-.01em;font-variation-settings:"wdth" 110}
-.sec-head p{color:var(--muted);margin:0;max-width:62ch;font-size:16px}
+/* ---- sections ---- */
+section{padding:54px 0;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.sec-head{margin-bottom:26px}
+.sec-head .label{display:block;margin-bottom:9px;color:var(--red)}
+h2{font-size:clamp(21px,2.5vw,28px);margin-bottom:8px}
+.sec-head p{margin:0;color:var(--ink2);max-width:66ch;font-size:15.5px}
 
-/* kpi */
-.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.kpi{background:var(--panel);padding:26px 24px;position:relative}
-.kpi .l{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
-.kpi .n{font-family:"Archivo";font-weight:800;font-size:36px;line-height:1.1;margin-top:12px;font-variation-settings:"wdth" 95;letter-spacing:-.02em}
-.kpi .s{font-size:14px;color:var(--dim);margin-top:6px;font-style:italic}
+/* ---- kpis ---- */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.kpi{background:var(--card);padding:22px 22px 20px}
+.kpi .n{font-size:31px;font-weight:800;line-height:1.15;letter-spacing:-.025em;margin-top:9px}
+.kpi .s{font-size:13.5px;color:var(--ink3);margin-top:3px}
 
-/* charts */
-.card{background:var(--panel);border:1px solid var(--line);padding:26px}
-.card h3{font-size:15px;margin:0 0 4px;letter-spacing:.04em;font-weight:700;font-variation-settings:"wdth" 105}
-.card .note{font-size:13px;color:var(--dim);margin:0 0 20px;font-style:italic}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+/* ---- card ---- */
+.card{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:24px}
+.card h3{font-size:15px;font-weight:700}
+.card .note{margin:4px 0 20px;font-size:13.5px;color:var(--ink3)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+
+/* ---- tables ---- */
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;min-width:940px;border-collapse:collapse;font-size:14px}
+th,td{padding:11px 12px;text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal;min-width:190px}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);font-weight:500;border-bottom:1.5px solid var(--rule2);vertical-align:bottom;line-height:1.35}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--ink)}
+th[aria-sort] .car::after{content:"\25B2";font-size:8px;margin-left:4px;color:var(--red)}
+th[aria-sort="descending"] .car::after{content:"\25BC"}
+tbody td{border-bottom:1px solid var(--rule)}
+tbody tr:hover td{background:#F8FAFC}
+tbody td:first-child{font-weight:600}
+.share{position:relative;min-width:112px}
+.share .track{position:absolute;left:12px;right:12px;bottom:7px;height:3px;background:var(--sunk);border-radius:2px}
+.share .fill{position:absolute;left:0;top:0;bottom:0;background:var(--steel);border-radius:2px}
+tfoot td{border-top:1.5px solid var(--ink);border-bottom:0;font-weight:800;padding-top:13px;background:var(--card)}
+tfoot td:first-child{letter-spacing:.04em}
+.fn{margin:16px 0 0;font-size:13px;color:var(--ink3);max-width:80ch}
+.fn b{color:var(--ink2);font-weight:600}
+
+/* ---- charts ---- */
 svg.chart{width:100%;height:auto;display:block;overflow:visible}
-.axis{stroke:var(--line);stroke-width:1}
-.gridline{stroke:var(--line);stroke-width:1;opacity:.45}
-.tick{font-family:"JetBrains Mono";font-size:10px;fill:var(--dim)}
-.blab{font-family:"JetBrains Mono";font-size:11px;fill:var(--muted)}
-.bval{font-family:"JetBrains Mono";font-size:11px;fill:var(--ivory);font-weight:500}
+.gridline{stroke:var(--rule);stroke-width:1}
+.axis{stroke:var(--rule2);stroke-width:1}
+.tick{font-family:"IBM Plex Mono",monospace;font-size:10px;fill:var(--ink3)}
+.blab{font-family:"Public Sans",sans-serif;font-size:12px;fill:var(--ink2)}
+.bval{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--ink);font-weight:500}
 .bar{transition:opacity .15s}
-.bar:hover{opacity:.75}
-.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:"JetBrains Mono";font-size:11px;color:var(--muted);margin-top:16px}
-.legend i{width:11px;height:11px;display:inline-block;margin-right:6px;vertical-align:-1px;border-radius:1px}
+.bar:hover{opacity:.78}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink3);margin-top:14px}
+.legend i{width:11px;height:11px;display:inline-block;margin-right:6px;vertical-align:-1px;border-radius:2px}
+.toggle{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.tg{font-family:"IBM Plex Mono",monospace;font-size:11.5px;background:var(--paper);color:var(--ink2);border:1px solid var(--rule2);padding:6px 13px;border-radius:3px;cursor:pointer}
+.tg[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:#fff;font-weight:600}
+.up{color:var(--sage)} .down{color:var(--red)}
 
-/* metric toggle */
-.toggle{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px}
-.tg{font-family:"JetBrains Mono";font-size:11px;background:var(--panel2);color:var(--muted);border:1px solid var(--line);padding:6px 12px;cursor:pointer;border-radius:2px}
-.tg[aria-pressed="true"]{background:var(--azure);color:#0B1520;border-color:var(--azure);font-weight:700}
-.tg:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
-
-/* table */
-table{width:100%;border-collapse:collapse;font-size:15px}
-th,td{text-align:right;padding:13px 12px;border-bottom:1px solid var(--line)}
-th:first-child,td:first-child{text-align:left}
-thead th{font-family:"JetBrains Mono";font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:1px solid var(--dim)}
-tbody td{font-family:"JetBrains Mono";font-size:13px}
-tbody td:first-child{font-family:"Newsreader";font-size:16px}
-tbody tr:hover{background:var(--panel2)}
-.up{color:var(--sage)} .down{color:var(--rust)}
-
-/* footer */
-footer{padding:56px 0 72px;color:var(--muted);font-size:14px}
-footer h4{font-family:"Archivo";font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin:0 0 14px;font-weight:700}
-footer p{max-width:78ch;margin:0 0 14px}
-.meth{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.rule{height:1px;background:var(--line);margin:40px 0}
+/* ---- footer ---- */
+footer{background:var(--card);border-top:1px solid var(--rule);padding:48px 0 60px;color:var(--ink2);font-size:14.5px}
+footer h4{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:0 0 12px;font-weight:600}
+footer p{margin:0 0 13px;max-width:74ch}
+.meth{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.colophon{margin-top:36px;padding-top:22px;border-top:1px solid var(--rule);font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase}
 
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .stamp{width:170px;height:170px;margin-top:8px}
-  .headline-stats{grid-template-columns:1fr 1fr}
+  .headline{grid-template-columns:1fr 1fr}
   .kpis{grid-template-columns:1fr 1fr}
   .two,.meth{grid-template-columns:1fr}
 }
 @media(max-width:560px){
-  body{font-size:16px}
+  .wrap{padding:0 18px}
   .kpis{grid-template-columns:1fr}
-  .hero{padding-top:48px}
-  section{padding:48px 0}
+  .hero{padding-top:38px}
+  section{padding:40px 0}
+  .btn{margin-left:0}
 }
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
-  .stamp{opacity:1;transform:rotate(-9deg)}
-  html{scroll-behavior:auto}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+@media print{
+  body{background:#fff;font-size:11pt}
+  .rail,.btn,.legend,#chartSections{display:none!important}
+  .masthead{border-bottom:2px solid #000}
+  section{padding:18px 0;border-bottom:0;break-inside:avoid}
+  .card{border:1px solid #999;padding:0;background:none}
+  table{min-width:0;font-size:9pt}
+  th,td{padding:5px 6px}
+  .headline,.kpis{border-color:#999}
 }
 </style>
 </head>
@@ -152,40 +159,23 @@ footer p{max-width:78ch;margin:0 0 14px}
 
 <header class="masthead">
   <div class="wrap">
-    <div class="brand">Soldiers' Angels <span class="div">/</span> <span class="sub">Virtual Services</span></div>
-    <div class="tag">Impact Dashboard</div>
+    <div class="brand">Soldiers' Angels <i>/</i> <em>Virtual Services</em></div>
+    <div class="label" id="asOf"></div>
   </div>
 </header>
 
 <div class="wrap hero">
-  <div class="hero-grid">
-    <div>
-      <div class="eyebrow">2023 &ndash; 2026 &nbsp;&middot;&nbsp; Program Record</div>
-      <h1>Nobody serves<br>alone. <em>Here is<br>the proof.</em></h1>
-      <p class="lede">Virtual Services volunteers write the letters, bake the cookies, pack the boxes, and sit with the families. This is the full record of that work: <b>every hour logged, every package sent, every service member reached.</b></p>
-    </div>
-    <svg class="stamp" viewBox="0 0 200 200" role="img" aria-label="Postmark showing the reporting period">
-      <defs><path id="arcTop" d="M 100,100 m -72,0 a 72,72 0 1,1 144,0" fill="none"/>
-      <path id="arcBot" d="M 100,100 m -72,0 a 72,72 0 1,0 144,0" fill="none"/></defs>
-      <circle class="ring" cx="100" cy="100" r="88" stroke-width="1.5"/>
-      <circle class="ring" cx="100" cy="100" r="82" stroke-width="3"/>
-      <circle class="ring" cx="100" cy="100" r="56" stroke-width="1" opacity=".5"/>
-      <text font-size="12" letter-spacing="4.2"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">VIRTUAL SERVICES</textPath></text>
-      <text font-size="10" letter-spacing="3.6"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">SOLDIERS ANGELS &middot; SAN ANTONIO TX</textPath></text>
-      <text id="stampYear" class="yr" x="100" y="107" text-anchor="middle">ALL</text>
-      <text class="mono" x="100" y="126" text-anchor="middle" font-size="8.5" letter-spacing="2.5" fill="#D9A441" opacity=".8">REPORTING PERIOD</text>
-      <line class="ring" x1="34" y1="150" x2="166" y2="150" stroke-width="1" opacity=".35"/>
-      <line class="ring" x1="34" y1="54" x2="166" y2="54" stroke-width="1" opacity=".35"/>
-    </svg>
-  </div>
-
-  <div class="headline-stats" id="headlineStats"></div>
+  <div class="eyebrow"><span class="label">Program Impact &nbsp;&middot;&nbsp; 2023 to 2026</span></div>
+  <h1>Virtual Services Dashboard</h1>
+  <p class="lede">Virtual Services volunteers write the letters, bake the cookies, pack the boxes, and sit with the families. This is the full record of that work: <b>every hour logged, every package sent, every service member reached.</b></p>
+  <div class="headline" id="headline"></div>
 </div>
 
 <div class="rail">
   <div class="wrap">
-    <span class="lab">Reporting year</span>
+    <span class="label">Reporting year</span>
     <div class="pills" id="yearPills" role="group" aria-label="Select reporting year"></div>
+    <button class="btn" id="printBtn">Print or save as PDF</button>
   </div>
 </div>
 
@@ -193,31 +183,50 @@ footer p{max-width:78ch;margin:0 0 14px}
 
   <section>
     <div class="sec-head">
-      <span class="sec-num">01 &nbsp;/&nbsp; THE NUMBERS</span>
-      <h2>What the year added up to</h2>
-      <p>Volunteer time is valued at the Independent Sector rate for the year it was served. In-kind value is the reported cost of goods volunteers bought and sent themselves.</p>
+      <span class="label">01 &nbsp;/&nbsp; The year at a glance</span>
+      <h2 id="glanceTitle">Totals</h2>
+      <p>Volunteer time is valued at the Independent Sector rate for the year the hours were served. In-kind value is the reported cost of goods volunteers purchased and sent themselves.</p>
     </div>
     <div class="kpis" id="kpis"></div>
   </section>
 
   <section>
     <div class="sec-head">
-      <span class="sec-num">02 &nbsp;/&nbsp; RHYTHM</span>
+      <span class="label">02 &nbsp;/&nbsp; Annual Impact Report</span>
+      <h2 id="reportTitle">Program by program</h2>
+      <p>Every Virtual Services program, side by side. Click any column heading to sort.</p>
+    </div>
+    <div class="card">
+      <div class="tscroll">
+        <table id="report">
+          <thead><tr id="reportHead"></tr></thead>
+          <tbody id="reportBody"></tbody>
+          <tfoot><tr id="reportFoot"></tr></tfoot>
+        </table>
+      </div>
+      <p class="fn"><b>On the volunteer count:</b> the program rows add up to more than the total, because one volunteer often serves several programs and is counted in each. The total row is the distinct headcount, so it comes in lower than the sum above it. Hours and dollars do add up cleanly.</p>
+    </div>
+  </section>
+
+  <div id="chartSections">
+  <section>
+    <div class="sec-head">
+      <span class="label">03 &nbsp;/&nbsp; Rhythm</span>
       <h2>Hours by month</h2>
       <p>Support is not evenly spread. Holiday drives, deployment cycles, and card campaigns each leave a shape.</p>
     </div>
     <div class="card">
       <h3>Volunteer hours logged per month</h3>
-      <p class="note">Selected year in brass, prior years shown faintly for comparison.</p>
+      <p class="note">Selected year in navy, other years shown faintly behind it.</p>
       <div id="monthChart"></div>
     </div>
   </section>
 
   <section>
     <div class="sec-head">
-      <span class="sec-num">03 &nbsp;/&nbsp; PROGRAMS</span>
+      <span class="label">04 &nbsp;/&nbsp; Programs</span>
       <h2>Where the effort went</h2>
-      <p>Twelve programs, each with a different shape of work. Switch the metric to see which ones carry hours versus which ones carry dollars.</p>
+      <p>Switch the metric to see which programs carry the hours and which carry the dollars.</p>
     </div>
     <div class="card">
       <div class="toggle" id="metricToggle" role="group" aria-label="Select metric"></div>
@@ -227,9 +236,9 @@ footer p{max-width:78ch;margin:0 0 14px}
 
   <section>
     <div class="sec-head">
-      <span class="sec-num">04 &nbsp;/&nbsp; REACH</span>
+      <span class="label">05 &nbsp;/&nbsp; Reach</span>
       <h2>Who was served, and how</h2>
-      <p>Every logged engagement records a service type and the status of the person on the receiving end.</p>
+      <p>Every logged engagement records a service type and the status of the person receiving it.</p>
     </div>
     <div class="two">
       <div class="card">
@@ -247,216 +256,286 @@ footer p{max-width:78ch;margin:0 0 14px}
 
   <section>
     <div class="sec-head">
-      <span class="sec-num">05 &nbsp;/&nbsp; THE VOLUNTEERS</span>
+      <span class="label">06 &nbsp;/&nbsp; The volunteers</span>
       <h2>How much people give</h2>
-      <p>Most volunteers contribute a handful of hours. A small group carries an outsized share, and both matter.</p>
+      <p>Most volunteers contribute a handful of hours. A smaller group carries an outsized share, and both matter.</p>
     </div>
     <div class="card">
       <h3>Volunteers by hours contributed</h3>
-      <p class="note">Each volunteer counted once per year, bucketed by total hours logged.</p>
+      <p class="note">Each volunteer counted once per year, grouped by total hours logged that year.</p>
       <div id="volChart"></div>
     </div>
   </section>
+  </div>
 
-  <section id="ytdSection">
+  <section>
     <div class="sec-head">
-      <span class="sec-num">06 &nbsp;/&nbsp; YEAR OVER YEAR</span>
-      <h2>January through May, 2025 vs 2026</h2>
-      <p>A like-for-like window so the comparison is honest, not flattered by a partial year.</p>
+      <span class="label">07 &nbsp;/&nbsp; Year over year</span>
+      <h2>January through May, 2025 against 2026</h2>
+      <p>A like-for-like window, so the comparison is not flattered by a partial year.</p>
     </div>
     <div class="card">
-      <table>
-        <thead><tr><th>Metric</th><th>2025 YTD</th><th>2026 YTD</th><th>Change</th><th>%</th></tr></thead>
-        <tbody id="ytdBody"></tbody>
-      </table>
+      <div class="tscroll">
+        <table style="min-width:640px">
+          <thead><tr><th>Metric</th><th>2025 YTD</th><th>2026 YTD</th><th>Change</th><th>Percent</th></tr></thead>
+          <tbody id="ytdBody"></tbody>
+        </table>
+      </div>
     </div>
   </section>
 </main>
 
-<footer class="wrap">
-  <div class="meth">
-    <div>
-      <h4>How these numbers are built</h4>
-      <p>Figures come directly from the Virtual Services engagement log. Volunteer time value uses the Independent Sector value of volunteer time for the year in which the hours were served. In-kind value is self-reported by volunteers at the point of logging.</p>
-      <p>Recipient names, volunteer names, and any individual record detail are deliberately excluded. Everything shown here is aggregated.</p>
+<footer>
+  <div class="wrap">
+    <div class="meth">
+      <div>
+        <h4>How these numbers are built</h4>
+        <p>Figures come directly from the Virtual Services engagement log. Volunteer time value uses the Independent Sector value of volunteer time for the year the hours were served. In-kind value is self-reported by volunteers at the point of logging.</p>
+        <p>Recipient names, volunteer names, and individual record detail are deliberately excluded. Everything shown here is aggregated.</p>
+      </div>
+      <div>
+        <h4>Reading the current year</h4>
+        <p>The current year is partial and will keep moving. Use the January through May comparison for any year-over-year claim.</p>
+        <p>A small number of logged engagements are flagged during review as potential duplicates or entry errors and are held out of supported counts.</p>
+      </div>
     </div>
-    <div>
-      <h4>Read the current year carefully</h4>
-      <p>2026 is a partial year and will keep moving. Use the January through May comparison for any year-over-year claim.</p>
-      <p>A small number of logged engagements are flagged as potential duplicates or entry errors during review and are held out of supported counts.</p>
-    </div>
+    <div class="colophon">Soldiers' Angels &nbsp;&middot;&nbsp; Virtual Services &nbsp;&middot;&nbsp; <span id="genDate"></span></div>
   </div>
-  <div class="rule"></div>
-  <p class="mono" style="font-size:11px;letter-spacing:.14em;color:var(--dim)">SOLDIERS' ANGELS &middot; VIRTUAL SERVICES &middot; <span id="genDate"></span></p>
 </footer>
 
 <script id="vs-data" type="application/json">/*__VS_DATA__*/</script>
 <script>
-const C={brass:'#D9A441',azure:'#5FA8CC',sage:'#84AE8E',rust:'#C4573B',muted:'#8CA2B5',dim:'#5F778C',line:'#23394E',ivory:'#F2EDE2'};
+const C={navy:'#1E3A5C',steel:'#4E7C9B',sage:'#5F8F73',amber:'#A8761F',red:'#C8102E',
+         ink3:'#70869C',rule:'#DCE3EA',sunk:'#EDF1F5'};
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-let D=null, YEAR='all', METRIC='hours';
+let D=null,YEAR='all',METRIC='hours',SORT={k:'hours',dir:-1};
 
-const nf=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?Math.round(n).toLocaleString():Math.round(n).toLocaleString();
+const nf=n=>n>=1e6?(n/1e6).toFixed(2)+'M':Math.round(n).toLocaleString();
 const money=n=>'$'+nf(n);
+const money0=n=>'$'+Math.round(n).toLocaleString();
+const dec=(n,d)=>n.toFixed(d);
+const pc=n=>(n*100).toFixed(1)+'%';
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const yearLabel=()=>YEAR==='all'?'all years':String(YEAR);
 
-/* ---------- data helpers ---------- */
-function years(){return [...new Set(D.summary.map(r=>r.year))].sort();}
+/* ---------- data ---------- */
+function years(){return [...new Set(D.summary.map(r=>r.year))].sort()}
 function totals(y){
   const rows=D.summary.filter(r=>r.program==='All Programs'&&(y==='all'||r.year===y));
-  const sum=k=>rows.reduce((a,r)=>a+(r[k]||0),0);
-  return {volunteers:sum('volunteers'),hours:sum('hours'),inKind:sum('inKind'),
-          timeValue:sum('timeValue'),staffLabor:sum('staffLabor'),packages:sum('packages'),
-          letters:sum('letters'),items:sum('items'),quantity:sum('quantity'),
-          engagements:sum('engagements'),falseReports:sum('falseReports')};
+  const s=k=>rows.reduce((a,r)=>a+(r[k]||0),0);
+  return{volunteers:s('volunteers'),hours:s('hours'),inKind:s('inKind'),timeValue:s('timeValue'),
+         staffLabor:s('staffLabor'),packages:s('packages'),letters:s('letters'),items:s('items'),
+         quantity:s('quantity'),engagements:s('engagements'),falseReports:s('falseReports')};
 }
 function progRows(y){
-  const rows=D.summary.filter(r=>r.program!=='All Programs'&&(y==='all'||r.year===y));
   const m={};
-  rows.forEach(r=>{const p=m[r.program]||(m[r.program]={program:r.program,hours:0,inKind:0,volunteers:0,engagements:0,quantity:0,timeValue:0});
-    p.hours+=r.hours||0;p.inKind+=r.inKind||0;p.volunteers+=r.volunteers||0;
-    p.engagements+=r.engagements||0;p.quantity+=r.quantity||0;p.timeValue+=r.timeValue||0;});
-  return Object.values(m);
+  D.summary.filter(r=>r.program!=='All Programs'&&(y==='all'||r.year===y)).forEach(r=>{
+    const p=m[r.program]||(m[r.program]={program:r.program,volunteers:0,hours:0,inKind:0,timeValue:0,
+      packages:0,letters:0,items:0,quantity:0,engagements:0});
+    ['volunteers','hours','inKind','timeValue','packages','letters','items','quantity','engagements']
+      .forEach(k=>p[k]+=r[k]||0);
+  });
+  const list=Object.values(m),t=totals(y);
+  list.forEach(p=>{
+    p.avgHrs=p.volunteers?p.hours/p.volunteers:0;
+    p.shareHrs=t.hours?p.hours/t.hours:0;
+  });
+  return list;
 }
 
-/* ---------- chart primitives ---------- */
-function hbars(rows,{fmt=nf,color=C.brass,w=880,rowH=34,labelW=210}={}){
-  if(!rows.length) return '<p class="note">No data for this selection.</p>';
-  const max=Math.max(...rows.map(r=>r.v))||1;
-  const barW=w-labelW-104, h=rows.length*rowH+14;
+/* ---------- chart primitive ---------- */
+function hbars(rows,opt){
+  opt=opt||{};
+  const fmt=opt.fmt||nf,color=opt.color||C.navy,w=opt.w||880,rowH=opt.rowH||34,labelW=opt.labelW||210;
+  if(!rows.length)return '<p class="note">No data for this selection.</p>';
+  const max=Math.max.apply(null,rows.map(r=>r.v))||1,barW=w-labelW-108,h=rows.length*rowH+12;
   let s=`<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Bar chart">`;
   rows.forEach((r,i)=>{
-    const y=i*rowH+8, bw=Math.max(2,(r.v/max)*barW);
+    const y=i*rowH+8,bw=Math.max(2,(r.v/max)*barW);
     s+=`<text class="blab" x="0" y="${y+15}">${esc(r.k)}</text>`;
-    s+=`<rect x="${labelW}" y="${y+3}" width="${barW}" height="17" fill="${C.line}" opacity=".35"/>`;
-    s+=`<rect class="bar" x="${labelW}" y="${y+3}" width="${bw}" height="17" fill="${r.c||color}"><title>${esc(r.k)}: ${fmt(r.v)}</title></rect>`;
+    s+=`<rect x="${labelW}" y="${y+3}" width="${barW}" height="16" rx="2" fill="${C.sunk}"/>`;
+    s+=`<rect class="bar" x="${labelW}" y="${y+3}" width="${bw}" height="16" rx="2" fill="${color}"><title>${esc(r.k)}: ${fmt(r.v)}</title></rect>`;
     s+=`<text class="bval" x="${labelW+barW+10}" y="${y+16}">${fmt(r.v)}</text>`;
   });
   return s+'</svg>';
 }
 
 function monthChart(){
-  const w=880,h=310,pl=54,pr=14,pt=16,pb=34;
-  const ys=years();
-  const series=ys.map(y=>({y,pts:MON.map((_,i)=>{
-    const m=D.monthly.find(r=>r.year===y&&r.month===i+1);
-    return Math.max(0,m?m.hours:0);})}));
-  const max=Math.max(...series.flatMap(s=>s.pts))*1.08||1;
-  const X=i=>pl+(i/11)*(w-pl-pr), Y=v=>h-pb-(v/max)*(h-pt-pb);
+  const w=880,h=300,pl=56,pr=42,pt=14,pb=32,ys=years();
+  const series=ys.map(y=>({y:y,pts:MON.map(function(_,i){
+    const m=D.monthly.find(r=>r.year===y&&r.month===i+1);return Math.max(0,m?m.hours:0);})}));
+  let mx=0;series.forEach(s=>s.pts.forEach(v=>{if(v>mx)mx=v;}));
+  const max=(mx||1)*1.08;
+  const X=i=>pl+(i/11)*(w-pl-pr),Y=v=>h-pb-(v/max)*(h-pt-pb);
   let s=`<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Volunteer hours by month">`;
   for(let g=0;g<=4;g++){const v=max*g/4,y=Y(v);
     s+=`<line class="gridline" x1="${pl}" y1="${y}" x2="${w-pr}" y2="${y}"/>`;
     s+=`<text class="tick" x="${pl-10}" y="${y+3.5}" text-anchor="end">${nf(v)}</text>`;}
-  MON.forEach((m,i)=>{s+=`<text class="tick" x="${X(i)}" y="${h-pb+18}" text-anchor="middle">${m}</text>`;});
-  const active=YEAR==='all'?ys[ys.length-1]:YEAR;
-  series.filter(sr=>sr.y!==active).forEach(sr=>{
-    s+=`<polyline fill="none" stroke="${C.azure}" stroke-width="1.5" opacity=".28" points="${sr.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`;
-    s+=`<text class="tick" x="${X(11)+4}" y="${Y(sr.pts[11])+3}" fill="${C.dim}">${sr.y}</text>`;});
-  const a=series.find(sr=>sr.y===active);
+  MON.forEach((m,i)=>{s+=`<text class="tick" x="${X(i)}" y="${h-pb+17}" text-anchor="middle">${m}</text>`;});
+  const act=YEAR==='all'?ys[ys.length-1]:YEAR;
+  series.filter(sr=>sr.y!==act).forEach(sr=>{
+    s+=`<polyline fill="none" stroke="${C.rule}" stroke-width="1.6" points="${sr.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`;
+    s+=`<text class="tick" x="${X(11)+6}" y="${Y(sr.pts[11])+3.5}">${sr.y}</text>`;});
+  const a=series.find(sr=>sr.y===act);
   if(a){
-    s+=`<polygon fill="${C.brass}" opacity=".13" points="${pl},${h-pb} ${a.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')} ${X(11)},${h-pb}"/>`;
-    s+=`<polyline fill="none" stroke="${C.brass}" stroke-width="2.5" stroke-linejoin="round" points="${a.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`;
-    a.pts.forEach((v,i)=>{s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="4" fill="${C.ink||'#0B1520'}" stroke="${C.brass}" stroke-width="2"><title>${MON[i]} ${active}: ${nf(v)} hrs</title></circle>`;});
+    s+=`<polygon fill="${C.navy}" opacity=".07" points="${pl},${h-pb} ${a.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')} ${X(11)},${h-pb}"/>`;
+    s+=`<polyline fill="none" stroke="${C.navy}" stroke-width="2.4" stroke-linejoin="round" points="${a.pts.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`;
+    a.pts.forEach((v,i)=>{s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="3.8" fill="#fff" stroke="${C.navy}" stroke-width="2"><title>${MON[i]} ${act}: ${nf(v)} hrs</title></circle>`;});
   }
   s+=`<line class="axis" x1="${pl}" y1="${h-pb}" x2="${w-pr}" y2="${h-pb}"/></svg>`;
-  const leg=`<div class="legend"><span><i style="background:${C.brass}"></i>${active}</span><span><i style="background:${C.azure};opacity:.4"></i>Other years</span></div>`;
-  return s+leg;
+  return s+`<div class="legend"><span><i style="background:${C.navy}"></i>${act}</span><span><i style="background:${C.rule}"></i>Other years</span></div>`;
+}
+
+/* ---------- Annual Impact Report ---------- */
+const COLS=[
+  {k:'program',t:'Program',f:esc},
+  {k:'volunteers',t:'Volunteers',f:nf},
+  {k:'hours',t:'Hours volunteered',f:n=>Math.round(n).toLocaleString()},
+  {k:'avgHrs',t:'Avg hrs / volunteer',f:n=>dec(n,1)},
+  {k:'packages',t:'Packages supported',f:nf},
+  {k:'letters',t:'Letters supported',f:nf},
+  {k:'items',t:'Items supported',f:nf},
+  {k:'engagements',t:'Engagements',f:nf},
+  {k:'inKind',t:'In-kind value',f:money0},
+  {k:'timeValue',t:'Volunteer time value',f:money0},
+  {k:'shareHrs',t:'% of hours',f:pc,share:true}
+];
+function renderReport(){
+  document.getElementById('reportTitle').textContent='Program by program, '+yearLabel();
+  document.getElementById('reportHead').innerHTML=COLS.map(function(c){
+    const on=SORT.k===c.k;
+    return '<th class="sortable" data-k="'+c.k+'" tabindex="0" role="button"'+
+      (on?' aria-sort="'+(SORT.dir<0?'descending':'ascending')+'"':'')+'>'+c.t+'<span class="car"></span></th>';
+  }).join('');
+
+  const rows=progRows(YEAR).slice().sort(function(a,b){
+    const x=a[SORT.k],y=b[SORT.k];
+    return typeof x==='string'?SORT.dir*x.localeCompare(y):SORT.dir*(x-y);
+  });
+  let maxShare=0.0001;rows.forEach(r=>{if(r.shareHrs>maxShare)maxShare=r.shareHrs;});
+
+  document.getElementById('reportBody').innerHTML=rows.map(function(r){
+    return '<tr>'+COLS.map(function(c){
+      if(c.share)return '<td class="share">'+pc(r.shareHrs)+
+        '<span class="track"><span class="fill" style="width:'+(r.shareHrs/maxShare*100).toFixed(1)+'%"></span></span></td>';
+      return '<td>'+c.f(r[c.k])+'</td>';
+    }).join('')+'</tr>';
+  }).join('');
+
+  const t=totals(YEAR);
+  const tv=Object.assign({},t,{program:'Total',avgHrs:t.volunteers?t.hours/t.volunteers:0,shareHrs:1});
+  document.getElementById('reportFoot').innerHTML=COLS.map(function(c){
+    return c.share?'<td>100.0%</td>':'<td>'+c.f(tv[c.k])+'</td>';
+  }).join('');
 }
 
 /* ---------- renderers ---------- */
 function renderHeadline(){
   const t=totals('all');
   const items=[[nf(t.hours),'Volunteer hours, all years'],[nf(t.engagements),'Engagements completed'],
-               [money(t.timeValue+t.inKind),'Total value delivered'],[nf(t.quantity),'Items, letters &amp; packages']];
-  document.getElementById('headlineStats').innerHTML=items.map(([n,l])=>
-    `<div class="hs"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+    [money(t.timeValue+t.inKind),'Total value delivered'],[nf(t.quantity),'Items, letters &amp; packages']];
+  document.getElementById('headline').innerHTML=items.map(function(p){
+    return '<div><div class="n">'+p[0]+'</div><div class="l">'+p[1]+'</div></div>';}).join('');
 }
 function renderKpis(){
-  const t=totals(YEAR);
-  const k=[['Volunteer hours',nf(t.hours),'logged and verified'],
-           ['Volunteers',nf(t.volunteers),'distinct people serving'],
-           ['Volunteer time value',money(t.timeValue),'at Independent Sector rate'],
-           ['In-kind value',money(t.inKind),'goods bought and sent'],
-           ['Engagements',nf(t.engagements),'individual acts of support'],
-           ['Packages &amp; letters',nf(t.packages+t.letters),'sent to service members']];
-  document.getElementById('kpis').innerHTML=k.map(([l,n,s],i)=>
-    `<div class="kpi"><div class="l">${l}</div><div class="n" style="color:${[C.brass,C.azure,C.sage,C.brass,C.azure,C.sage][i]}">${n}</div><div class="s">${s}</div></div>`).join('');
+  const t=totals(YEAR),allY=YEAR==='all';
+  document.getElementById('glanceTitle').textContent=allY?'Totals across all years':String(YEAR)+' totals';
+  const k=[['Volunteer hours',Math.round(t.hours).toLocaleString(),'logged and verified',C.navy],
+    ['Volunteers',nf(t.volunteers),allY?'counted once per year served':'distinct people serving',C.steel],
+    ['Volunteer time value',money0(t.timeValue),'at Independent Sector rate',C.sage],
+    ['In-kind value',money0(t.inKind),'goods bought and sent',C.amber],
+    ['Engagements',nf(t.engagements),'individual acts of support',C.navy],
+    ['Packages &amp; letters',nf(t.packages+t.letters),'sent to those we serve',C.steel]];
+  document.getElementById('kpis').innerHTML=k.map(function(r){
+    return '<div class="kpi"><div class="label">'+r[0]+'</div><div class="n" style="color:'+r[3]+'">'+r[1]+
+           '</div><div class="s">'+r[2]+'</div></div>';}).join('');
 }
-const METRICS=[['hours','Hours',nf,C.brass],['inKind','In-kind value',money,C.sage],
-               ['timeValue','Time value',money,C.brass],['volunteers','Volunteers',nf,C.azure],
-               ['engagements','Engagements',nf,C.azure],['quantity','Items supported',nf,C.sage]];
+const METRICS=[['hours','Hours',n=>Math.round(n).toLocaleString(),C.navy],
+  ['inKind','In-kind value',money0,C.amber],['timeValue','Time value',money0,C.sage],
+  ['volunteers','Volunteers',nf,C.steel],['engagements','Engagements',nf,C.steel],
+  ['quantity','Items supported',nf,C.sage]];
 function renderProg(){
-  const [key,,fmt,col]=METRICS.find(m=>m[0]===METRIC);
-  const rows=progRows(YEAR).map(p=>({k:p.program,v:p[key]||0})).sort((a,b)=>b.v-a.v).filter(r=>r.v>0);
-  document.getElementById('progChart').innerHTML=hbars(rows,{fmt,color:col,labelW:220});
+  const m=METRICS.find(x=>x[0]===METRIC);
+  const rows=progRows(YEAR).map(p=>({k:p.program,v:p[m[0]]||0})).filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
+  document.getElementById('progChart').innerHTML=hbars(rows,{fmt:m[2],color:m[3],labelW:220});
 }
 function renderSvc(){
-  const rows=D.services.filter(r=>YEAR==='all'||r.year===YEAR);
-  const m={};rows.forEach(r=>m[r.service]=(m[r.service]||0)+r.count);
-  const top=Object.entries(m).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v).slice(0,9);
-  document.getElementById('svcChart').innerHTML=hbars(top,{color:C.azure,w:520,labelW:190,rowH:32});
+  const m={};D.services.filter(r=>YEAR==='all'||r.year===YEAR).forEach(r=>{m[r.service]=(m[r.service]||0)+r.count;});
+  const top=Object.keys(m).map(k=>({k:k,v:m[k]})).sort((a,b)=>b.v-a.v).slice(0,9);
+  document.getElementById('svcChart').innerHTML=hbars(top,{color:C.steel,w:520,labelW:180,rowH:32});
 }
 function renderStatus(){
-  const rows=D.status.filter(r=>(YEAR==='all'||r.year===YEAR)&&r.status!=='nan');
-  const m={};rows.forEach(r=>m[r.status]=(m[r.status]||0)+r.count);
-  const tot=Object.values(m).reduce((a,b)=>a+b,0)||1;
-  const top=Object.entries(m).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v).slice(0,9);
-  document.getElementById('statusChart').innerHTML=hbars(top,{
-    fmt:v=>nf(v)+'  ('+(v/tot*100).toFixed(1)+'%)',color:C.sage,w:520,labelW:190,rowH:32});
+  const m={};D.status.filter(r=>(YEAR==='all'||r.year===YEAR)&&r.status!=='nan')
+    .forEach(r=>{m[r.status]=(m[r.status]||0)+r.count;});
+  let tot=0;Object.keys(m).forEach(k=>tot+=m[k]);tot=tot||1;
+  const top=Object.keys(m).map(k=>({k:k,v:m[k]})).sort((a,b)=>b.v-a.v).slice(0,9);
+  document.getElementById('statusChart').innerHTML=hbars(top,{fmt:v=>nf(v)+'  ('+pc(v/tot)+')',color:C.sage,w:520,labelW:180,rowH:32});
 }
 function renderVol(){
-  const order=['<10 hrs','10-49 hrs','50-99 hrs','100-249 hrs','250+ hrs'];
-  const rows=D.volDist.filter(r=>YEAR==='all'||r.year===YEAR);
-  const m={};rows.forEach(r=>m[r.bucket]=(m[r.bucket]||0)+r.count);
+  const order=['<10 hrs','10-49 hrs','50-99 hrs','100-249 hrs','250+ hrs'],m={};
+  D.volDist.filter(r=>YEAR==='all'||r.year===YEAR).forEach(r=>{m[r.bucket]=(m[r.bucket]||0)+r.count;});
   const data=order.filter(b=>m[b]).map(b=>({k:b,v:m[b]}));
-  const tot=data.reduce((a,r)=>a+r.v,0)||1;
-  document.getElementById('volChart').innerHTML=hbars(data,{
-    fmt:v=>nf(v)+'  ('+(v/tot*100).toFixed(1)+'%)',color:C.brass,labelW:150,rowH:38});
+  let tot=0;data.forEach(r=>tot+=r.v);tot=tot||1;
+  document.getElementById('volChart').innerHTML=hbars(data,{fmt:v=>nf(v)+'  ('+pc(v/tot)+')',color:C.navy,labelW:150,rowH:38});
 }
 function renderYtd(){
-  document.getElementById('ytdBody').innerHTML=D.ytd.map(r=>{
-    const isMoney=/value/i.test(r.metric);
-    const isAvg=/^avg/i.test(r.metric);
-    const f=v=>v==null?'&mdash;':isAvg?v.toFixed(1):(isMoney?money(v):nf(v));
-    const up=(r.delta||0)>=0, cls=up?'up':'down';
-    const pct=r.pct==null?'&mdash;':(up?'+':'')+(r.pct*100).toFixed(1)+'%';
-    return `<tr><td>${esc(r.metric)}</td><td>${f(r.prior)}</td><td>${f(r.current)}</td>
-      <td class="${cls}">${up?'+':'&minus;'}${f(Math.abs(r.delta||0))}</td><td class="${cls}">${pct}</td></tr>`;
+  document.getElementById('ytdBody').innerHTML=D.ytd.map(function(r){
+    const isM=/value/i.test(r.metric),isA=/^avg/i.test(r.metric);
+    const f=v=>v==null?'&mdash;':isA?dec(v,1):(isM?money0(v):nf(v));
+    const up=(r.delta||0)>=0,cls=up?'up':'down';
+    return '<tr><td>'+esc(r.metric)+'</td><td>'+f(r.prior)+'</td><td>'+f(r.current)+'</td><td class="'+cls+'">'+
+      (up?'+':'&minus;')+f(Math.abs(r.delta||0))+'</td><td class="'+cls+'">'+
+      (r.pct==null?'&mdash;':(up?'+':'')+pc(r.pct))+'</td></tr>';
   }).join('');
 }
 function renderAll(){
-  document.getElementById('stampYear').textContent=YEAR==='all'?'ALL':YEAR;
-  renderKpis();
+  renderKpis();renderReport();
   document.getElementById('monthChart').innerHTML=monthChart();
   renderProg();renderSvc();renderStatus();renderVol();
 }
 
 /* ---------- boot ---------- */
 try{
-  const d=JSON.parse(document.getElementById('vs-data').textContent);
-  D=d;
-  document.getElementById('genDate').textContent='Data current as of '+d.generated;
+  D=JSON.parse(document.getElementById('vs-data').textContent);
+  document.getElementById('genDate').textContent='Data current as of '+D.generated;
+  document.getElementById('asOf').textContent='As of '+D.generated;
+
   const yp=document.getElementById('yearPills');
-  yp.innerHTML=[['all','All years'],...years().map(y=>[y,y])].map(([v,l])=>
-    `<button class="pill" data-y="${v}" aria-pressed="${v==='all'}">${l}</button>`).join('');
-  yp.addEventListener('click',e=>{
+  yp.innerHTML=[['all','All years']].concat(years().map(y=>[y,y])).map(function(p){
+    return '<button class="pill" data-y="'+p[0]+'" aria-pressed="'+(p[0]==='all')+'">'+p[1]+'</button>';}).join('');
+  yp.addEventListener('click',function(e){
     const b=e.target.closest('.pill');if(!b)return;
     YEAR=b.dataset.y==='all'?'all':+b.dataset.y;
-    [...yp.children].forEach(c=>c.setAttribute('aria-pressed',c===b));
+    Array.prototype.forEach.call(yp.children,c=>c.setAttribute('aria-pressed',c===b));
     renderAll();
   });
+
   const mt=document.getElementById('metricToggle');
-  mt.innerHTML=METRICS.map(([k,l])=>`<button class="tg" data-m="${k}" aria-pressed="${k==='hours'}">${l}</button>`).join('');
-  mt.addEventListener('click',e=>{
+  mt.innerHTML=METRICS.map(function(m){
+    return '<button class="tg" data-m="'+m[0]+'" aria-pressed="'+(m[0]==='hours')+'">'+m[1]+'</button>';}).join('');
+  mt.addEventListener('click',function(e){
     const b=e.target.closest('.tg');if(!b)return;
     METRIC=b.dataset.m;
-    [...mt.children].forEach(c=>c.setAttribute('aria-pressed',c===b));
+    Array.prototype.forEach.call(mt.children,c=>c.setAttribute('aria-pressed',c===b));
     renderProg();
   });
+
+  const sortHandler=function(e){
+    const th=e.target.closest('th.sortable');if(!th)return;
+    if(e.type==='keydown'){if(e.key!=='Enter'&&e.key!==' ')return;e.preventDefault();}
+    const k=th.dataset.k;
+    SORT=SORT.k===k?{k:k,dir:-SORT.dir}:{k:k,dir:k==='program'?1:-1};
+    renderReport();
+  };
+  const rh=document.getElementById('reportHead');
+  rh.addEventListener('click',sortHandler);
+  rh.addEventListener('keydown',sortHandler);
+  document.getElementById('printBtn').addEventListener('click',function(){window.print();});
+
   renderHeadline();renderYtd();renderAll();
 }catch(err){
   document.querySelector('main').innerHTML=
-    '<section><h2>The data did not load</h2><p class="lede">Re-run <code>python tools/refresh_data.py VS_Database_v3.xlsx</code> to rebuild the embedded dataset.</p></section>';
+    '<section><h2>The data did not load</h2><p class="lede">Open refresh.html, drop the workbook in again, and upload the index.html it produces.</p></section>';
   console.error(err);
 }
 </script>
