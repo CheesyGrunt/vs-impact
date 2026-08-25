@@ -1,0 +1,10 @@
+# never commit the source workbook - it contains recipient and volunteer names
+*.xlsx
+*.xlsm
+*.xls
+*.csv
+
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
