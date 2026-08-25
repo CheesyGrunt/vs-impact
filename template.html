@@ -131,6 +131,16 @@ svg.chart{width:100%;height:auto;display:block;overflow:visible}
 .tg[aria-pressed="true"]{background:var(--steel);border-color:var(--steel);color:#fff;font-weight:600}
 .up{color:var(--moss)} .down{color:var(--ember)}
 
+/* ---- forecast ---- */
+.fcstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:4px;overflow:hidden;margin-bottom:26px}
+.fcstats>div{background:var(--card);padding:18px 20px}
+.fcstats .n{font-family:"Cinzel",Georgia,serif;font-size:26px;font-weight:700;line-height:1.15;margin-top:8px}
+.fcstats .r{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink3);margin-top:5px}
+.fcband{fill:var(--gold);opacity:.12}
+.fcproj{stroke:var(--gold);stroke-width:2.2;fill:none;stroke-dasharray:7 5;stroke-linejoin:round}
+@media(max-width:700px){.fcstats{grid-template-columns:1fr}}
+
 /* ---- callout ---- */
 .callout{background:#FBF6E8;border:1px solid #E4D6AC;border-left:3px solid var(--gold);
   border-radius:4px;padding:16px 19px;margin-bottom:22px;font-size:16px;color:#5C4A22;max-width:88ch}
@@ -322,6 +332,26 @@ footer p{margin:0 0 13px;max-width:74ch}
           <tfoot><tr id="ytdProgFoot"></tr></tfoot>
         </table>
       </div>
+    </div>
+  </section>
+  <section id="fcSection" hidden>
+    <div class="sec-head">
+      <span class="label">08 &nbsp;/&nbsp; Looking ahead</span>
+      <h2 id="fcTitle">Where the year lands if the pattern holds</h2>
+      <p id="fcIntro"></p>
+    </div>
+    <div class="card">
+      <div class="toggle" id="fcToggle" role="group" aria-label="Select metric to project"></div>
+      <div class="fcstats" id="fcStats"></div>
+      <div id="fcChart"></div>
+      <div class="tscroll" style="margin-top:26px">
+        <table id="fcTable" style="min-width:560px">
+          <thead><tr><th>Month</th><th id="fcLowHead">Low</th><th>Expected</th><th id="fcHighHead">High</th></tr></thead>
+          <tbody id="fcBody"></tbody>
+          <tfoot><tr id="fcFoot"></tr></tfoot>
+        </table>
+      </div>
+      <p class="fn" id="fcMethod"></p>
     </div>
   </section>
 </main>
@@ -641,8 +671,181 @@ function renderYtd(){
   document.getElementById('ytdProgBody').innerHTML=y.programs.map(function(r){return line(r);}).join('');
   document.getElementById('ytdProgFoot').innerHTML=y.total?line(y.total):'';
 }
+/* ---------- forecasting the rest of the current year ----------
+   Method: take each earlier COMPLETE year, work out what share of that year's
+   total landed in each month, then scale this year's actuals up by the same
+   shape. Every complete year gives one projection; the spread between them is
+   the range. Years that were still ramping up are skipped, since a month with
+   nothing in it is not seasonality, it is an absence. */
+const FMETRICS=[
+  ['hours','Hours',function(n){return Math.round(n).toLocaleString();}],
+  ['engagements','Engagements',nf],
+  ['inKind','In-kind value',money0],
+  ['supported','People and items supported',nf]
+];
+let FMETRIC='hours';
+
+function forecast(key){
+  const ys=years(),cur=ys[ys.length-1];
+  const endM=windowFromData(cur);
+  if(endM<0||endM>=11)return null;
+
+  const profiles=[];
+  ys.forEach(function(y){
+    if(y===cur)return;
+    const m=MON.map(function(_,i){
+      const r=D.monthly.find(function(x){return x.year===y&&x.month===i+1;});
+      return r?Math.max(0,r[key]||0):0;});
+    const t=m.reduce(function(a,b){return a+b;},0);
+    if(t<=0)return;
+    if(m.some(function(v){return v<=0;}))return;   // ramp-up or partial year
+    profiles.push({year:y,share:m.map(function(v){return v/t;})});
+  });
+  if(!profiles.length)return null;
+
+  const actual=MON.map(function(_,i){
+    if(i>endM)return null;
+    const r=D.monthly.find(function(x){return x.year===cur&&x.month===i+1;});
+    return r?Math.max(0,r[key]||0):0;});
+  const ytd=actual.slice(0,endM+1).reduce(function(a,b){return a+(b||0);},0);
+  if(ytd<=0)return null;
+
+  const runs=[];
+  profiles.forEach(function(p){
+    const s=p.share.slice(0,endM+1).reduce(function(a,b){return a+b;},0);
+    if(s<0.05)return;
+    const full=ytd/s;
+    runs.push({year:p.year,full:full,months:p.share.map(function(v){return v*full;})});
+  });
+  if(!runs.length)return null;
+
+  // Low and high are whole projections from a single year each, not a
+  // month-by-month best and worst case. Mixing months from different years
+  // would give a range no year actually predicts, and the column would stop
+  // adding up to the total above it.
+  const byFull=runs.slice().sort(function(a,b){return a.full-b.full;});
+  const runLow=byFull[0],runHigh=byFull[byFull.length-1];
+  const mid=function(a){return a.length%2?a[(a.length-1)/2]:(a[a.length/2-1]+a[a.length/2])/2;};
+  const proj=[];
+  for(let i=0;i<12;i++)
+    proj.push(mid(runs.map(function(r){return r.months[i];}).sort(function(a,b){return a-b;})));
+  const fulls=runs.map(function(r){return r.full;}).sort(function(a,b){return a-b;});
+  return {year:cur,endM:endM,actual:actual,ytd:ytd,proj:proj,
+          low:runLow.months,high:runHigh.months,
+          lowYear:runLow.year,highYear:runHigh.year,
+          full:mid(fulls),fullLow:fulls[0],fullHigh:fulls[fulls.length-1],
+          basis:runs.map(function(r){return r.year;}),single:runs.length<2};
+}
+
+function fcChart(f,fmt){
+  const w=880,h=310,pl=58,pr=44,pt=14,pb=32;
+  let mx=0;
+  f.high.forEach(function(v,i){if(i>f.endM&&v>mx)mx=v;});
+  f.actual.forEach(function(v){if(v!==null&&v>mx)mx=v;});
+  const max=(mx||1)*1.08;
+  const X=function(i){return pl+(i/11)*(w-pl-pr);},
+        Y=function(v){return h-pb-(v/max)*(h-pt-pb);};
+  let s='<svg class="chart" viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Actual and projected '+
+        FMETRICS.find(function(m){return m[0]===FMETRIC;})[1].toLowerCase()+' by month">';
+  for(let g=0;g<=4;g++){const v=max*g/4,y=Y(v);
+    s+='<line class="gridline" x1="'+pl+'" y1="'+y+'" x2="'+(w-pr)+'" y2="'+y+'"/>';
+    s+='<text class="tick" x="'+(pl-10)+'" y="'+(y+3.5)+'" text-anchor="end">'+nf(v)+'</text>';}
+  MON.forEach(function(m,i){
+    s+='<text class="tick" x="'+X(i)+'" y="'+(h-pb+17)+'" text-anchor="middle">'+m+'</text>';});
+
+  // the band between the most and least optimistic complete year
+  if(!f.single){
+    let up='',down='';
+    for(let i=f.endM;i<12;i++){
+      const hv=i===f.endM?f.actual[i]:f.high[i], lv=i===f.endM?f.actual[i]:f.low[i];
+      up+=X(i)+','+Y(hv)+' ';
+      down=X(i)+','+Y(lv)+' '+down;
+    }
+    s+='<polygon class="fcband" points="'+up+down+'"/>';
+  }
+  // projection, starting from the last real month so the line connects
+  let pp='';
+  for(let i=f.endM;i<12;i++)pp+=X(i)+','+Y(i===f.endM?f.actual[i]:f.proj[i])+' ';
+  s+='<polyline class="fcproj" points="'+pp.trim()+'"/>';
+  for(let i=f.endM+1;i<12;i++)
+    s+='<circle cx="'+X(i)+'" cy="'+Y(f.proj[i])+'" r="3.4" fill="'+C.night+'" stroke="'+C.gold+
+       '" stroke-width="1.8" stroke-dasharray="2 1.6"><title>'+MONTHS[i]+' projected: '+fmt(f.proj[i])+'</title></circle>';
+
+  // actuals
+  let ap='';
+  for(let i=0;i<=f.endM;i++)ap+=X(i)+','+Y(f.actual[i])+' ';
+  s+='<polygon fill="'+C.gold+'" opacity=".10" points="'+pl+','+(h-pb)+' '+ap+X(f.endM)+','+(h-pb)+'"/>';
+  s+='<polyline fill="none" stroke="'+C.gold+'" stroke-width="2.4" stroke-linejoin="round" points="'+ap.trim()+'"/>';
+  for(let i=0;i<=f.endM;i++)
+    s+='<circle cx="'+X(i)+'" cy="'+Y(f.actual[i])+'" r="3.8" fill="'+C.night+'" stroke="'+C.gold+
+       '" stroke-width="2"><title>'+MONTHS[i]+' actual: '+fmt(f.actual[i])+'</title></circle>';
+
+  s+='<line class="axis" x1="'+pl+'" y1="'+(h-pb)+'" x2="'+(w-pr)+'" y2="'+(h-pb)+'"/></svg>';
+  return s+'<div class="legend"><span><i style="background:'+C.gold+'"></i>Logged so far</span>'+
+    '<span><i style="background:'+C.gold+';opacity:.45"></i>Projected</span>'+
+    (f.single?'':'<span><i style="background:'+C.gold+';opacity:.18"></i>Range across '+f.basis.join(' and ')+'</span>')+
+    '</div>';
+}
+
+function renderForecast(){
+  const sec=document.getElementById('fcSection');
+  const ys=years(),cur=ys[ys.length-1];
+  if(!(YEAR==='all'||YEAR===cur)){sec.hidden=true;return;}
+
+  const m=FMETRICS.find(function(x){return x[0]===FMETRIC;}),fmt=m[2];
+  const f=forecast(FMETRIC);
+  if(!f){sec.hidden=true;return;}
+  sec.hidden=false;
+
+  document.getElementById('fcTitle').textContent='Where '+f.year+' lands if the pattern holds';
+  document.getElementById('fcIntro').textContent=
+    'Through '+MONTHS[f.endM]+', '+f.year+' is running at a certain pace. Earlier complete years tell us '+
+    'what share of a year normally falls in each month, so that shape can be used to carry the rest of '+
+    f.year+' forward. This is an estimate, not a promise.';
+
+  document.getElementById('fcToggle').innerHTML=FMETRICS.map(function(x){
+    return '<button class="tg" data-f="'+x[0]+'" aria-pressed="'+(x[0]===FMETRIC)+'">'+x[1]+'</button>';}).join('');
+
+  const remain=f.full-f.ytd;
+  document.getElementById('fcStats').innerHTML=
+    '<div><div class="label">Logged through '+MONTHS[f.endM]+'</div>'+
+      '<div class="n" style="color:'+C.gold+'">'+fmt(f.ytd)+'</div>'+
+      '<div class="r">actual, already in the books</div></div>'+
+    '<div><div class="label">Still to come</div>'+
+      '<div class="n" style="color:'+C.steel+'">'+fmt(Math.max(0,remain))+'</div>'+
+      '<div class="r">'+(12-f.endM-1)+' months remaining</div></div>'+
+    '<div><div class="label">Projected '+f.year+' total</div>'+
+      '<div class="n" style="color:'+C.moss+'">'+fmt(f.full)+'</div>'+
+      '<div class="r">'+(f.single?'single year basis':fmt(f.fullLow)+' to '+fmt(f.fullHigh))+'</div></div>';
+
+  document.getElementById('fcLowHead').textContent=f.single?'Low':'If '+f.lowYear+' repeats';
+  document.getElementById('fcHighHead').textContent=f.single?'High':'If '+f.highYear+' repeats';
+
+  let rows='';
+  for(let i=f.endM+1;i<12;i++){
+    rows+='<tr><td>'+MONTHS[i]+'</td><td>'+fmt(f.low[i])+'</td><td>'+fmt(f.proj[i])+
+          '</td><td>'+fmt(f.high[i])+'</td></tr>';
+  }
+  document.getElementById('fcBody').innerHTML=rows;
+  const sum=function(a){let t=0;for(let i=f.endM+1;i<12;i++)t+=a[i];return t;};
+  document.getElementById('fcFoot').innerHTML=
+    '<td>Rest of '+f.year+'</td><td>'+fmt(sum(f.low))+'</td><td>'+fmt(sum(f.proj))+'</td><td>'+fmt(sum(f.high))+'</td>';
+
+  document.getElementById('fcChart').innerHTML=fcChart(f,fmt);
+
+  document.getElementById('fcMethod').innerHTML='<b>How this is worked out:</b> each earlier complete year '+
+    'gives a monthly shape, and this year\'s total through '+MONTHS[f.endM]+' is scaled up by that shape. '+
+    (f.single
+      ? 'Only '+f.basis[0]+' is complete enough to use, so there is no range yet. A second full year will give one.'
+      : f.basis.join(' and ')+' are complete enough to use. The two outer columns are each a whole projection '+
+        'from one of those years, not a month-by-month best and worst case, which is why they add up. ')+
+    'Years that were still starting up are left out. A campaign that lands differently this year, a change in '+
+    'staffing, or anything that shifts the calendar will move these numbers, so treat them as a planning aid '+
+    'rather than a forecast to be held to.';
+}
+
 function renderAll(){
-  renderKpis();renderReport();
+  renderKpis();renderReport();renderForecast();
   document.getElementById('monthChart').innerHTML=monthChart();
   renderProg();renderSvc();renderStatus();renderVol();
 }
@@ -686,6 +889,10 @@ try{
   document.getElementById('ytdToggle').addEventListener('click',function(e){
     const b=e.target.closest('.tg');if(!b)return;
     YFAM=b.dataset.f;renderYtd();
+  });
+  document.getElementById('fcToggle').addEventListener('click',function(e){
+    const b=e.target.closest('.tg');if(!b)return;
+    FMETRIC=b.dataset.f;renderForecast();
   });
   document.getElementById('printBtn').addEventListener('click',function(){window.print();});
 
